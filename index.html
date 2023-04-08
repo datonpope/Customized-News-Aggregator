@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Custom News Aggregator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b3d91;
+            color: #fff;
+        }
+        header {
+            background-color: #0d47a1;
+            padding: 20px;
+            text-align: center;
+            font-size: 25px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background-color: #1565c0;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #f9a825;
+            border-color: #f9a825;
+        }
+        .btn-primary:hover {
+            background-color: #f57f17;
+            border-color: #f57f17;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Custom News Aggregator
+    </header>
+    <div class="container">
+        <h2>Generate a News Summary</h2>
+        <form id="summary-form">
+            <div class="mb-3">
+                <label for="topic" class="form-label">Topic</label>
+                <input type="text" class="form-control" id="topic" placeholder="Enter a topic">
+            </div>
+            <div class="mb-3">
+                <label for="interests" class="form-label">Interests</label>
+                <input type="text" class="form-control" id="interests" placeholder="Enter your interests separated by commas">
+            </div>
+            <div class="mb-3">
+                <label for="detail-level" class="form-label">Detail Level</label>
+                <select class="form-select" id="detail-level">
+                    <option selected value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Summary</button>
+        </form>
+        <h2 class="mt-4">Summary</h2>
+        <p id="summary-result"></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+        $("#summary-form").submit(async function (e) {
+            e.preventDefault();
+            const topic = $("#topic").val();
+            const interests = $("#interests").val();
+            const detailLevel = $("#detail-level").val();
+
+            const response = await fetch("/generate-summary", {
+                method: "POST",
+                body: JSON.stringify({ topic, interests, detail_level: detailLevel
+}),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const result = await response.text();
+            $("#summary-result").text(result);
+        });
+    </script>
+</body>
+</html>
+
+
